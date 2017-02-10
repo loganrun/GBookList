@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +36,14 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
 
+
         ListView bookListView = (ListView)findViewById(R.id.result_list);
         mEmptyStateTextView = (TextView)findViewById(R.id.empty_text);
         bookListView.setEmptyView(mEmptyStateTextView);
 
         mAdapter = new BookAdapter(this, new ArrayList<Book>());
         bookListView.setAdapter(mAdapter);
-        View loadingIndicator =(View)findViewById(R.id.progress_bar);
+        View loadingIndicator = findViewById(R.id.progress_bar);
         loadingIndicator.setVisibility(View.GONE);
 
 
@@ -53,6 +55,10 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View view) {
                 mBookSearch = (EditText)findViewById(R.id.book_query);
                 mBookQuery = mBookSearch.getText().toString();
+                if (mBookQuery.isEmpty()){
+                    mEmptyStateTextView.setText(R.string.please_type);
+                    return;
+                }
                 query = BOOK_SEARCH_REQ + mBookQuery + "&maxResults=15";
 
                 ConnectivityManager connMgr = (ConnectivityManager)
