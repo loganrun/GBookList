@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int BOOK_LOADER_ID = 1;
 
-    private static final String BOOK_SEARCH_REQ = "https://www.googleapis.com/books/v1/volumes?q= ";
+    private static final String BOOK_SEARCH_REQ = "https://www.googleapis.com/books/v1/volumes?q=";
     private BookAdapter mAdapter;
     private EditText mBookSearch;
     private String mBookQuery;
@@ -29,6 +30,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
 
     /** TextView that is displayed when the list is empty */
     private TextView mEmptyStateTextView;
+    private static final String LOG_TAG = BookActivity.class.getSimpleName();
 
 
     @Override
@@ -59,7 +61,9 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
                     mEmptyStateTextView.setText(R.string.please_type);
                     return;
                 }
-                query = BOOK_SEARCH_REQ + mBookQuery + "&maxResults=15";
+                query = BOOK_SEARCH_REQ + mBookQuery.replace(" ","") + "&maxresult=15";
+                Log.i(LOG_TAG,"This is the url " + query);
+
 
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);

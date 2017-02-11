@@ -57,7 +57,9 @@ public final class SearchUtils {
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
+        Log.i(LOG_TAG, "This is the url" + stringUrl);
         return url;
+
     }
 
 
