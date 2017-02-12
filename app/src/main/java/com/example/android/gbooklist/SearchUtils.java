@@ -57,7 +57,6 @@ public final class SearchUtils {
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
-        Log.i(LOG_TAG, "This is the url" + stringUrl);
         return url;
 
     }
@@ -136,11 +135,18 @@ public final class SearchUtils {
                 JSONObject properties = currentBook.getJSONObject("volumeInfo");
 
                 String title = properties.getString("title");
-                String author = properties.getString("authors");
                 String date = properties.getString("publishedDate");
 
-                Book book = new Book(title, author, date);
-                books.add(book);
+                JSONArray authors = properties.getJSONArray("authors");
+
+                for (int j= 0; j < authors.length(); j++) {
+
+
+                    String author = properties.getString("authors").replace("[", "").replace("]", "");
+
+                    Book book = new Book(title, author, date);
+                    books.add(book);
+                }
             }
 
         } catch (JSONException e) {

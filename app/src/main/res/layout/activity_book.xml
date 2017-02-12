@@ -20,13 +20,13 @@
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:id="@+id/book_query"
-           android:hint="please enter query here"
+           android:hint="@string/hint_query"
            android:textSize="24sp"/>
        <Button
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:id="@+id/submit"
-           android:text="Submit"
+           android:text="@string/submit_button"
            android:textAllCaps="true"
            android:textSize="16sp"/>
    </LinearLayout>

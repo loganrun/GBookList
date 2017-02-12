@@ -18,7 +18,6 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
     public BookLoader(Context context, String url) {
         super(context);
         mUrl = url;
-        Log.i(LOG_TAG, "This is the url " + mUrl);
     }
 
     @Override

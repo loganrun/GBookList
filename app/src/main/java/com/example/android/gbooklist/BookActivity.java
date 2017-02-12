@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +39,16 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
 
+        EditText editText = (EditText)findViewById(R.id.book_query);
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus){
+                    hideKeyBoard(view);
+                }
+
+            }
+        });
 
         ListView bookListView = (ListView)findViewById(R.id.result_list);
         mEmptyStateTextView = (TextView)findViewById(R.id.empty_text);
@@ -62,7 +73,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
                     return;
                 }
                 query = BOOK_SEARCH_REQ + mBookQuery.replace(" ","") + "&maxresult=15";
-                Log.i(LOG_TAG,"This is the url " + query);
+
 
 
                 ConnectivityManager connMgr = (ConnectivityManager)
@@ -91,21 +102,32 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+
+
     }
+    public void hideKeyBoard(View view) {
+        InputMethodManager imm= (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
 
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
-        return new BookLoader(this,query);
+        return new BookLoader(this, query);
     }
+
 
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
+        View loadingIndicator = findViewById(R.id.progress_bar);
+        loadingIndicator.setVisibility(View.GONE);
+
         if (books != null && !books.isEmpty()){
             mAdapter.clear();
             mAdapter.addAll(books);
+
         }else {
-            View loadingIndicator = findViewById(R.id.progress_bar);
-            loadingIndicator.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_data_found);
         }
 

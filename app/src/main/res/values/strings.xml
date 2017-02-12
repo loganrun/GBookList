@@ -3,4 +3,6 @@
     <string name="no_internet_connection">NO INTERNET CONNECTION</string>
     <string name="no_data_found">NO BOOKS FOUND</string>
     <string name="please_type">"Please Type Query</string>
+    <string name="hint_query">Please enter query here</string>
+    <string name="submit_button">Submit</string>
 </resources>
